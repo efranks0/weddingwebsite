@@ -108,7 +108,12 @@ The dashboard at `/admin` has five tabs:
 
 ## For the designer
 
-- Colours, fonts, spacing and button shapes are CSS variables in `src/styles/tokens.css`. The values match the Bliss & Bone site: colours were sampled from screenshots.
+- Brand colours: taupe `#F0E8DD` and crimson `#7F000B`. Text is crimson by default. On a crimson block (`.day`), text switches to taupe.
+- Three text roles, defined once in `src/styles/base.css`:
+  - **Header:** Bodoni Moda Regular, all caps
+  - **Sub-header:** Inter Regular, all caps
+  - **Body:** Inter Light, sentence case
+- Colours, fonts, spacing and button shapes are CSS variables in `src/styles/tokens.css`.
 - Fonts are self-hosted via `@fontsource` (`src/layouts/Fonts.astro`):
   - Bodoni Moda for titles
   - Inter for text

@@ -1,8 +1,8 @@
 /* Personal RSVP form. Uses tokens only. */
 .rsvp { text-align: left; margin-top: var(--space-5); }
 .rsvp__event { border: 0; border-top: var(--border); padding: var(--space-4) 0 var(--space-3); margin: 0; }
-.rsvp__event-title { font-family: var(--font-display); font-size: var(--text-lg); text-transform: uppercase; padding: 0 var(--space-3) 0 0; }
-.rsvp__event-time { font-family: var(--font-body); font-size: var(--text-sm); font-weight: var(--font-weight-strong); letter-spacing: var(--tracking-heading); margin-left: var(--space-2); }
+.rsvp__event-title { font-size: var(--text-lg); padding: 0 var(--space-3) 0 0; }
+.rsvp__event-time { font-size: var(--text-sm); letter-spacing: var(--tracking-heading); margin-left: var(--space-2); }
 .rsvp__row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; padding: var(--space-2) 0; }
 .rsvp__name { flex: 1 1 10rem; letter-spacing: var(--tracking-heading); }
 .rsvp__choices { display: flex; gap: var(--space-2); }
@@ -11,7 +11,7 @@
 .choice span {
   display: inline-grid; place-items: center; min-width: 4.5rem; min-height: 2.5rem; padding: 0 var(--space-3);
   border: 1px solid var(--color-ink); border-radius: var(--oval);
-  font-size: var(--text-sm); font-weight: 600; letter-spacing: var(--tracking-caps); text-transform: uppercase;
+  font-size: var(--text-sm); letter-spacing: var(--tracking-caps);
   cursor: pointer; user-select: none;
 }
 .choice input:checked + span { background: var(--color-ink); color: var(--color-bg); }

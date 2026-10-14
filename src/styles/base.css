@@ -12,14 +12,24 @@ body {
   letter-spacing: var(--tracking-body);
   -webkit-font-smoothing: antialiased;
 }
-h1, h2, h3 {
+/* ---- Text roles. Every text element uses exactly one of these. ---- */
+/* Header: Bodoni Moda Regular, all caps */
+h1, h2, h3, .menu__link, .rsvp__event-title {
   font-family: var(--font-display);
   font-weight: var(--font-weight-display);
   line-height: var(--line-height-tight);
   text-transform: uppercase;
   letter-spacing: 0;
-  margin: 0 0 var(--space-4);
 }
+h1, h2, h3 { margin: 0 0 var(--space-4); }
+/* Sub-header: Inter Regular, all caps */
+.hero__greeting, .hero__date, .section__lead, .day__time, .rsvp__event-time,
+.button, .choice span, .header__link, .footer {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-subheader);
+  text-transform: uppercase;
+}
+/* Body: Inter Light, sentence case (the default on <body>) */
 h2 { font-size: var(--text-xl); }
 p { margin: 0; }
 a { color: inherit; }
@@ -34,8 +44,8 @@ strong { font-weight: var(--font-weight-strong); }
   min-width: 10rem; min-height: 4.25rem; padding: var(--space-2) var(--space-4);
   border: 1px solid currentColor; border-radius: var(--oval);
   background: transparent; color: inherit;
-  font: inherit; font-weight: 600; font-size: var(--text-base);
-  letter-spacing: var(--tracking-caps); text-transform: uppercase; text-decoration: none;
+  font-size: var(--text-base);
+  letter-spacing: var(--tracking-caps); text-decoration: none;
   cursor: pointer;
 }
 .button:hover { background: color-mix(in srgb, currentColor 8%, transparent); }

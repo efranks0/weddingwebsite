@@ -1,19 +1,23 @@
 /* ==========================================================================
    Design tokens. The whole look of the site is set here.
    Components only ever use these variables, so restyling = editing this file.
-   Values match the Bliss & Bone site (colours sampled from screenshots).
+   Brand: two colours, three text roles (from the Bliss & Bone settings).
+   Text is crimson by default; on a crimson block, text switches to taupe.
    ========================================================================== */
 :root {
   /* Colour */
-  --color-bg: #eee8de;           /* cream page background */
-  --color-ink: #892716;          /* brick red: text, lines, headings */
-  --color-panel: #6f1b11;        /* deep red band ("The Day") */
-  --color-panel-ink: #f1e9df;    /* text on the red band */
-  --color-surface: #f4efe7;      /* inputs */
+  --taupe: #F0E8DD;              /* brand off-white / taupe */
+  --crimson: #7F000B;            /* brand crimson */
+
+  --color-bg: var(--taupe);      /* page background */
+  --color-ink: var(--crimson);   /* default text, lines, headings */
+  --color-panel: var(--crimson); /* crimson blocks ("The Day") */
+  --color-panel-ink: var(--taupe); /* text on crimson blocks */
+  --color-surface: color-mix(in srgb, var(--taupe) 60%, white); /* inputs */
   --color-muted: color-mix(in srgb, var(--color-ink) 70%, var(--color-bg));
   --color-line: var(--color-ink);
   --color-success: var(--color-ink);
-  --color-danger: #892716;
+  --color-danger: var(--crimson);
 
   /* Welcome screen: black sky over a misty horizon (sampled from the B&B page).
      To use the original photo instead: --welcome-bg: url('/images/welcome.jpg') center / cover; */
@@ -25,12 +29,17 @@
   --text-welcome: clamp(3.5rem, 2rem + 6vw, 7.5rem);
 
   /* Typography (self-hosted via @fontsource, see src/layouts/Fonts.astro) */
-  --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', serif;   /* section titles, uppercase */
+  /* Three text roles:
+       Header      Bodoni Moda Regular, ALL CAPS
+       Sub-header  Inter Regular, ALL CAPS
+       Body        Inter Light, sentence case            */
+  --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', serif;
   --font-body: 'Inter', 'Helvetica Neue', Arial, sans-serif;
   --font-script: 'Ms Madi', cursive;   /* logo + welcome title (closest free match to the B&B signature font) */
-  --font-weight-display: 400;
-  --font-weight-body: 400;
-  --font-weight-strong: 500;
+  --font-weight-display: 400;    /* Header: Regular */
+  --font-weight-subheader: 400;  /* Sub-header: Regular */
+  --font-weight-body: 300;       /* Body: Light */
+  --font-weight-strong: 500;     /* admin tables only */
   --tracking-body: 0.06em;        /* B&B body copy is lightly letter-spaced */
   --tracking-heading: 0.12em;     /* questions, times */
   --tracking-caps: 0.14em;        /* date, small caps labels */
