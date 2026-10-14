@@ -33,7 +33,8 @@ export function normPhone(raw, who) {
   const intl = s.startsWith('+') || s.startsWith('00');
   s = s.replace(/\D/g, '').replace(/^00/, '');
   if (!intl) {
-    if (/^69\d{8}$/.test(s)) s = '30' + s; // Greek mobile without country code
+    if (/^9\d{7}$/.test(s)) s = '357' + s; // Cyprus mobile without country code
+    else if (/^69\d{8}$/.test(s)) s = '30' + s; // Greek mobile without country code
     else warn(`${who}: phone "${raw}" has no country code; check it`);
   }
   if (s.length < 9 || s.length > 15) warn(`${who}: phone "${raw}" looks wrong`);

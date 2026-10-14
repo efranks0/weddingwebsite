@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import Nav from '../components/Nav.astro';
+import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import Intro from '../components/Intro.astro';
 import DressCode from '../components/DressCode.astro';
@@ -11,12 +11,12 @@ import RsvpPublic from '../components/RsvpPublic.astro';
 import Footer from '../components/Footer.astro';
 ---
 <Base>
-  <Hero />
-  <Nav />
+  <Header />
   <main>
+    <Hero />
     <Intro />
-    <DressCode />
     <TheDay />
+    <DressCode />
     <Album />
     <Faq />
     <RsvpPublic />

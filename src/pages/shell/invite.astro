@@ -2,7 +2,7 @@
 // Template for personal pages. Never served directly (middleware 404s /shell);
 // functions/i/[token].ts fills it in per household.
 import Base from '../../layouts/Base.astro';
-import Nav from '../../components/Nav.astro';
+import Header from '../../components/Header.astro';
 import Hero from '../../components/Hero.astro';
 import Intro from '../../components/Intro.astro';
 import DressCode from '../../components/DressCode.astro';
@@ -13,12 +13,12 @@ import RsvpPersonal from '../../components/RsvpPersonal.astro';
 import Footer from '../../components/Footer.astro';
 ---
 <Base>
-  <Hero personal />
-  <Nav />
+  <Header />
   <main>
+    <Hero personal />
     <Intro />
-    <DressCode />
     <TheDay personal />
+    <DressCode />
     <Album />
     <Faq />
     <RsvpPersonal />

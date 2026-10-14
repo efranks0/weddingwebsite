@@ -108,13 +108,17 @@ The dashboard at `/admin` has five tabs:
 
 ## For the designer
 
-- Colours, fonts, spacing, radius and the hero image are CSS variables in `src/styles/tokens.css`.
-- The font `<link>` is in `src/layouts/Fonts.astro`.
+- Colours, fonts, spacing and button shapes are CSS variables in `src/styles/tokens.css`. The values match the Bliss & Bone site: colours were sampled from screenshots.
+- Fonts are self-hosted via `@fontsource` (`src/layouts/Fonts.astro`):
+  - Bodoni Moda for titles
+  - Inter for text
+  - Herr Von Muellerhoff for the script logo, as the closest free match. Swap in the original logo file if you have it.
 - Section styles in `src/styles/sections.css` and `rsvp.css` use only those variables and plain BEM-style class names.
 - Copy lives in `src/content/site.ts`, so markup and text can change independently.
 
 ## Still to fill in (`TODO` in the code)
 
-- Copy from the Bliss & Bone site: intro, dress-code details, FAQ, venues, date and place, warm-up times and places. Search for `TODO`.
-- Exact fonts and colours from the B&B site (`tokens.css` and `Fonts.astro`).
-- The Wedibox album URL, and the QR image in `public/images/`.
+- Intro text. The section stays hidden until it has text.
+- The real day-of contact. The B&B site still says "AAAA, +35700000000".
+- The Wedibox album URL and the QR image in `public/images/`. The button and QR stay hidden until set.
+- Check the LOCATION links. They are Google Maps searches built from the addresses.

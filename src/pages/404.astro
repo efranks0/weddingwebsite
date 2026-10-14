@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import { site } from '../content/site';
 ---
 <Base title={`Not found · ${site.title}`}>
+  <header class="header"><span class="logo">{site.logo}</span></header>
   <main class="auth">
     <div class="auth__card">
       <h1>{site.couple}</h1>

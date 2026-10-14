@@ -6,9 +6,9 @@ import { site } from '../content/site';
     <h2>{site.faq.title}</h2>
     <div class="faq">
       {site.faq.items.map((f) => (
-        <details class="faq__item">
+        <details class="faq__item" open>
           <summary class="faq__q">{f.q}</summary>
-          <div class="faq__a">{f.a}</div>
+          <div class="faq__a">{f.a.map((line) => <p>{line}</p>)}</div>
         </details>
       ))}
     </div>

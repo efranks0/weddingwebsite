@@ -4,7 +4,7 @@ pages_build_output_dir = "./dist"
 
 [vars]
 # Responses can be changed until this moment, then the link becomes read-only.
-RSVP_DEADLINE = "2026-12-15T23:59:59+02:00"
+RSVP_DEADLINE = "2026-12-15T23:59:59+02:00"  # Cyprus time
 # Used to build personal links in the admin "Send" tab and CSV export.
 SITE_URL = "https://etwedding.pages.dev"
 

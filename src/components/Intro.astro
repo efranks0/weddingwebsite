@@ -1,9 +1,12 @@
 ---
 import { site } from '../content/site';
+const { title, paragraphs } = site.intro;
 ---
-<section class="section" id="intro">
-  <div class="container">
-    <h2>{site.intro.title}</h2>
-    {site.intro.paragraphs.map((p) => <p>{p}</p>)}
-  </div>
-</section>
+{(title || paragraphs.length > 0) && (
+  <section class="section" id="intro">
+    <div class="container">
+      {title && <h2>{title}</h2>}
+      {paragraphs.map((p) => <p>{p}</p>)}
+    </div>
+  </section>
+)}

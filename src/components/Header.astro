@@ -1,0 +1,35 @@
+---
+import { site } from '../content/site';
+const links = [
+  ['#top', site.hero.menuLabel],
+  ['#the-day', site.day.title],
+  ['#dress-code', site.dressCode.title],
+  ['#album', site.album.title],
+  ['#faq', site.faq.title],
+  ['#rsvp', site.rsvp.title],
+];
+---
+<header class="header">
+  <a class="logo" href="#top">{site.logo}</a>
+  <nav class="header__links" aria-label="Main">
+    <a class="header__link" href="#rsvp">RSVP</a>
+    <button class="header__link" type="button" aria-expanded="false" aria-controls="menu" id="menu-toggle">Menu</button>
+  </nav>
+</header>
+<div class="menu" id="menu" hidden>
+  <ul class="menu__list">
+    {links.map(([href, label]) => <li><a class="menu__link" href={href}>{label}</a></li>)}
+  </ul>
+</div>
+<script>
+  const toggle = document.getElementById('menu-toggle')!;
+  const menu = document.getElementById('menu')!;
+  const set = (open: boolean) => {
+    menu.hidden = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.textContent = open ? 'Close' : 'Menu';
+  };
+  toggle.addEventListener('click', () => set(menu.hidden));
+  menu.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('a')) set(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+</script>

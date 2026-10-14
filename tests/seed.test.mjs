@@ -10,6 +10,7 @@ test('phones normalise to wa.me digits', () => {
   assert.equal(normPhone('+30 690 000 0001', 'x'), '306900000001');
   assert.equal(normPhone('0044 7700 900001', 'x'), '447700900001');
   assert.equal(normPhone('6900000001', 'x'), '306900000001');
+  assert.equal(normPhone('99 123456', 'x'), '35799123456');
   assert.equal(normPhone('', 'x'), null);
 });
 

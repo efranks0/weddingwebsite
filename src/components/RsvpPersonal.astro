@@ -2,15 +2,12 @@
 // The form is rendered in the browser from the JSON the /i/<token> function
 // injects into #invite-data. Labels come from site.ts via #rsvp-copy.
 import { site } from '../content/site';
-const eventTimes = {
-  warmup: '',
-  ceremony: site.day.items.find((i) => i.show === 'ceremony')?.time ?? '',
-  dinner: site.day.items.find((i) => i.show === 'dinner')?.time ?? '',
+const block = (ev: string) => site.day.blocks.find((b) => b.rsvpEvent === ev);
+const copy = {
+  ...site.rsvp,
+  eventTimes: { warmup: '', ceremony: block('ceremony')?.entries[0]?.time ?? '', dinner: block('dinner')?.entries[0]?.time ?? '' },
+  warmupTimes: Object.fromEntries((block('warmup')?.entries ?? []).map((e) => [e.show.replace('warmup-', ''), e.time])),
 };
-const copy = { ...site.rsvp, eventTimes, warmupTimes: {
-  emilios: site.day.items.find((i) => i.show === 'warmup-emilios')?.time ?? '',
-  theo: site.day.items.find((i) => i.show === 'warmup-theo')?.time ?? '',
-} };
 ---
 <section class="section" id="rsvp">
   <div class="container">

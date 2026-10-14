@@ -1,25 +1,28 @@
 ---
-// Public mode renders only public items. Personal mode renders every item
-// tagged with data-show; the /i/<token> function strips the ones this
-// household isn't invited to before the page leaves the server.
+// Public mode renders only public blocks. Personal mode renders everything
+// tagged with data-show; the /i/<token> function strips what this household
+// isn't invited to before the page leaves the server.
 import { site } from '../content/site';
 interface Props { personal?: boolean }
 const { personal = false } = Astro.props;
-const items = personal ? site.day.items : site.day.items.filter((i) => i.public);
+const blocks = personal ? site.day.blocks : site.day.blocks.filter((b) => b.public);
+const show = (s: string) => (personal && s ? s : undefined);
 ---
-<section class="section" id="the-day">
+<section class="day" id="the-day" aria-label={site.day.title}>
   <div class="container">
-    <h2>{site.day.title}</h2>
-    <p class="section__label">{site.date}</p>
-    <ol class="timeline">
-      {items.map((i) => (
-        <li class="timeline__item" data-show={personal ? i.show : undefined}>
-          <div class="timeline__time">{i.time}</div>
-          <p class="timeline__title">{i.title}</p>
-          <p class="timeline__venue">{i.venue}</p>
-          {i.note && <p>{i.note}</p>}
-        </li>
-      ))}
-    </ol>
+    {blocks.map((b) => (
+      <div class="day__block" data-show={show(b.show)}>
+        <h2>{b.title}</h2>
+        {b.entries.map((e) => (
+          <div class="day__entry" data-show={show(e.show)}>
+            <p class="day__time">{e.time}</p>
+            {e.lines.map((l) => <p class="day__line">{l}</p>)}
+            {e.map && <a class="button" href={e.map} target="_blank" rel="noopener">{site.day.locationButton}</a>}
+          </div>
+        ))}
+        {b.footer.length > 0 && <div class="day__footer">{b.footer.map((l) => <p>{l}</p>)}</div>}
+        {b.map && <a class="button" href={b.map} target="_blank" rel="noopener">{site.day.locationButton}</a>}
+      </div>
+    ))}
   </div>
 </section>

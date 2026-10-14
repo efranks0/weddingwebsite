@@ -3,8 +3,8 @@ import { site } from '../content/site';
 ---
 <section class="section" id="dress-code">
   <div class="container">
-    <p class="eyebrow">{site.dressCode.title}</p>
-    <h2>{site.dressCode.label}</h2>
+    <h2>{site.dressCode.title}</h2>
+    <p class="section__lead">{site.dressCode.label}</p>
     {site.dressCode.paragraphs.map((p) => <p>{p}</p>)}
   </div>
 </section>

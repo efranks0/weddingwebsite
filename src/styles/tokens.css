@@ -1,41 +1,41 @@
 /* ==========================================================================
    Design tokens. The whole look of the site is set here.
    Components only ever use these variables, so restyling = editing this file.
-
-   TODO(design): match the current Bliss & Bone site exactly. Swap the
-   colour values, the font families (and the <link> in src/layouts/Fonts.astro),
-   then fine-tune sizes.
+   Values match the Bliss & Bone site (colours sampled from screenshots).
    ========================================================================== */
 :root {
   /* Colour */
-  --color-bg: #faf7f2;          /* page background */
-  --color-surface: #ffffff;     /* cards, form panels */
-  --color-text: #2b2724;        /* body text */
-  --color-muted: #7a716a;       /* secondary text */
-  --color-accent: #8a6d4b;      /* headings accents, buttons */
-  --color-accent-contrast: #ffffff;
-  --color-line: #e4ddd3;        /* hairlines, borders */
-  --color-hero-bg: #2b2724;
-  --color-hero-text: #faf7f2;
-  --color-success: #4f6b4a;
-  --color-danger: #9b3b2f;
+  --color-bg: #eee8de;           /* cream page background */
+  --color-ink: #892716;          /* brick red: text, lines, headings */
+  --color-panel: #6f1b11;        /* deep red band ("The Day") */
+  --color-panel-ink: #f1e9df;    /* text on the red band */
+  --color-surface: #f4efe7;      /* inputs */
+  --color-muted: color-mix(in srgb, var(--color-ink) 70%, var(--color-bg));
+  --color-line: var(--color-ink);
+  --color-success: var(--color-ink);
+  --color-danger: #892716;
 
-  /* Typography */
-  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
-  --font-body: 'Jost', 'Helvetica Neue', Arial, sans-serif;
+  /* Typography (self-hosted via @fontsource, see src/layouts/Fonts.astro) */
+  --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', serif;   /* section titles, uppercase */
+  --font-body: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-script: 'Herr Von Muellerhoff', cursive;                /* logo */
   --font-weight-display: 400;
-  --font-weight-body: 300;
+  --font-weight-body: 400;
   --font-weight-strong: 500;
-  --letter-spacing-caps: 0.2em;
+  --tracking-body: 0.06em;        /* B&B body copy is lightly letter-spaced */
+  --tracking-heading: 0.12em;     /* questions, times */
+  --tracking-caps: 0.14em;        /* date, small caps labels */
 
-  --text-xs: 0.75rem;
+  --text-xs: 0.6875rem;
   --text-sm: 0.875rem;
-  --text-base: 1.0625rem;
-  --text-lg: 1.25rem;
-  --text-xl: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
-  --text-hero: clamp(2.5rem, 1.6rem + 4.5vw, 5rem);
-  --line-height: 1.7;
-  --line-height-tight: 1.15;
+  --text-base: 0.9375rem;
+  --text-md: 1.25rem;            /* FAQ questions, times */
+  --text-lg: 1.375rem;
+  --text-xl: clamp(2.25rem, 1.6rem + 2.4vw, 3.25rem);   /* section titles */
+  --text-hero: clamp(2rem, 1.4rem + 2.6vw, 3rem);
+  --text-logo: 1.75rem;
+  --line-height: 1.65;
+  --line-height-tight: 1.1;
 
   /* Space & layout */
   --space-1: 0.25rem;
@@ -44,17 +44,13 @@
   --space-4: 1.5rem;
   --space-5: 2.5rem;
   --space-6: 4rem;
-  --space-section: clamp(4rem, 3rem + 5vw, 7.5rem);
-  --content-width: 40rem;
+  --space-section: clamp(4rem, 3rem + 4vw, 6.5rem);
+  --header-height: 5.75rem;
+  --content-width: 43.75rem;      /* 700px column, as on B&B */
   --wide-width: 64rem;
 
   /* Shape */
-  --radius: 2px;
-  --radius-pill: 999px;
   --border: 1px solid var(--color-line);
-  --shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.04);
-
-  /* Hero image (set to none for a plain colour hero) */
-  --hero-image: none; /* e.g. url('/images/hero.jpg') */
-  --hero-overlay: rgb(0 0 0 / 0.35);
+  --radius: 0;
+  --oval: 50%;                    /* the elliptical "LOCATION" buttons */
 }

@@ -7,6 +7,6 @@ const a = site.album;
     <h2>{a.title}</h2>
     {a.paragraphs.map((p) => <p>{p}</p>)}
     {a.qrImage && <img class="album__qr" src={a.qrImage} alt="QR code for the photo album" width="180" height="180" />}
-    <a class="button button--ghost" href={a.url} target="_blank" rel="noopener">{a.button}</a>
+    {a.url && <a class="button" href={a.url} target="_blank" rel="noopener">{a.button}</a>}
   </div>
 </section>
