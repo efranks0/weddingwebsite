@@ -15,8 +15,8 @@
   },
   "dependencies": {
     "@fontsource/bodoni-moda": "^5.3.0",
-    "@fontsource/herr-von-muellerhoff": "^5.3.0",
     "@fontsource/inter": "^5.3.0",
+    "@fontsource/ms-madi": "^5.3.0",
     "astro": "^7.3.8"
   },
   "devDependencies": {

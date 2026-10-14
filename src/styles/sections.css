@@ -16,6 +16,30 @@
   background: none; border: 0; padding: 0; color: inherit; cursor: pointer;
 }
 
+/* Over the welcome screen the header is transparent: no logo, no line, red links. */
+.header { transition: background-color 0.3s, border-color 0.3s, color 0.3s; }
+.header.is-over { background: transparent; border-bottom-color: transparent; color: var(--color-welcome-ink); }
+.header.is-over .logo { opacity: 0; pointer-events: none; }
+.logo { transition: opacity 0.3s; }
+
+/* Welcome screen: full viewport, sits under the transparent header. */
+.welcome {
+  position: relative; isolation: isolate;
+  height: 100svh; margin-top: calc(-1 * var(--header-height));
+  display: grid; place-items: center; overflow: hidden;
+  background: var(--welcome-bg);
+}
+.welcome::after {   /* film grain */
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  opacity: var(--welcome-grain); mix-blend-mode: overlay;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.welcome__title {
+  font-family: var(--font-script); font-size: var(--text-welcome); line-height: 1;
+  color: var(--color-welcome-ink); letter-spacing: 0; text-align: center; text-transform: none; margin: 0;
+  padding: 0 var(--space-3); transform: translateY(4%);
+}
+
 /* Full-screen menu */
 .menu {
   position: fixed; inset: var(--header-height) 0 0; z-index: 19;
@@ -33,7 +57,7 @@
 .hero { min-height: calc(100svh - var(--header-height)); padding: var(--space-4) var(--space-4) var(--space-6); text-align: center; }
 .hero__heart { width: 4.25rem; height: auto; margin: 0 auto var(--space-6); color: var(--color-ink); }
 .hero__greeting { font-size: var(--text-md); letter-spacing: var(--tracking-heading); margin-bottom: var(--space-4); }
-.hero__title { font-size: var(--text-hero); max-width: 10em; margin: 0 auto var(--space-6); }
+.hero__title { font-size: var(--text-hero); max-width: 12em; margin: 0 auto var(--space-6); }
 .hero__date { font-size: var(--text-md); font-weight: var(--font-weight-strong); letter-spacing: var(--tracking-caps); text-transform: uppercase; }
 .hero__line { font-size: var(--text-sm); }
 

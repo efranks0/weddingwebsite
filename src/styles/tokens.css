@@ -15,10 +15,19 @@
   --color-success: var(--color-ink);
   --color-danger: #892716;
 
+  /* Welcome screen: black sky over a misty horizon (sampled from the B&B page).
+     To use the original photo instead: --welcome-bg: url('/images/welcome.jpg') center / cover; */
+  --color-welcome-ink: #b80a18;   /* bright red script + RSVP/MENU over the welcome image */
+  --welcome-bg: linear-gradient(180deg,
+      #0d0d0f 0%, #0e1118 48.5%, #112434 49.4%, #214761 50.2%, #3b6882 51%, #58839b 51.7%,
+      #7398ad 52.5%, #9fb8c5 54%, #becbd5 55.7%, #d7d9dd 59.7%, #e2e2e3 63.7%, #e1e1e3 96%, #d6d6d8 100%);
+  --welcome-grain: 0.14;          /* film grain strength, 0 to disable */
+  --text-welcome: clamp(3.5rem, 2rem + 6vw, 7.5rem);
+
   /* Typography (self-hosted via @fontsource, see src/layouts/Fonts.astro) */
   --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', serif;   /* section titles, uppercase */
   --font-body: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-  --font-script: 'Herr Von Muellerhoff', cursive;                /* logo */
+  --font-script: 'Ms Madi', cursive;   /* logo + welcome title (closest free match to the B&B signature font) */
   --font-weight-display: 400;
   --font-weight-body: 400;
   --font-weight-strong: 500;

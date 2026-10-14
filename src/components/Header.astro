@@ -1,7 +1,7 @@
 ---
 import { site } from '../content/site';
 const links = [
-  ['#top', site.hero.menuLabel],
+  ['#welcome', site.hero.menuLabel],
   ['#the-day', site.day.title],
   ['#dress-code', site.dressCode.title],
   ['#album', site.album.title],
@@ -9,8 +9,8 @@ const links = [
   ['#rsvp', site.rsvp.title],
 ];
 ---
-<header class="header">
-  <a class="logo" href="#top">{site.logo}</a>
+<header class="header" id="site-header">
+  <a class="logo" href="#welcome">{site.logo}</a>
   <nav class="header__links" aria-label="Main">
     <a class="header__link" href="#rsvp">RSVP</a>
     <button class="header__link" type="button" aria-expanded="false" aria-controls="menu" id="menu-toggle">Menu</button>
@@ -32,4 +32,15 @@ const links = [
   toggle.addEventListener('click', () => set(menu.hidden));
   menu.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('a')) set(false); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+
+  // Transparent header while the welcome screen is behind it.
+  const header = document.getElementById('site-header')!;
+  const welcome = document.getElementById('welcome');
+  if (welcome) {
+    const update = () => header.classList.toggle('is-over', menu.hidden && window.scrollY < welcome.offsetHeight - header.offsetHeight);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    toggle.addEventListener('click', update);
+  }
 </script>

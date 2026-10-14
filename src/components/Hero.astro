@@ -7,7 +7,7 @@ const { personal = false } = Astro.props;
 <section class="hero" id="top">
   <Heart class="hero__heart" />
   {personal && <p class="hero__greeting">{site.rsvp.greeting} <span data-slot="household-name"></span></p>}
-  <h1 class="hero__title">{site.hero.title}</h1>
+  <h2 class="hero__title">{site.hero.title}</h2>
   <p class="hero__date">{site.hero.date}</p>
   {site.hero.lines.map((l) => <p class="hero__line">{l}</p>)}
 </section>

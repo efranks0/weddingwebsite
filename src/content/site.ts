@@ -8,6 +8,8 @@ export const site = {
   logo: 'Emilios and Theodora', // script logo, top left
   title: 'Emilios & Theodora',
 
+  welcome: "It's Happening!", // full-screen welcome everyone lands on
+
   hero: {
     menuLabel: "It's Happening",
     title: 'Emilios & Theodora are finally getting married',

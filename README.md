@@ -112,7 +112,7 @@ The dashboard at `/admin` has five tabs:
 - Fonts are self-hosted via `@fontsource` (`src/layouts/Fonts.astro`):
   - Bodoni Moda for titles
   - Inter for text
-  - Herr Von Muellerhoff for the script logo, as the closest free match. Swap in the original logo file if you have it.
+  - Ms Madi for the script logo and welcome title, as the closest free match. Swap in the original logo file if you have it.
 - Section styles in `src/styles/sections.css` and `rsvp.css` use only those variables and plain BEM-style class names.
 - Copy lives in `src/content/site.ts`, so markup and text can change independently.
 
