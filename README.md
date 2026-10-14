@@ -13,10 +13,12 @@ Wedding website for Emilios & Theodora. Built with Astro (static pages), Cloudfl
 ```
 src/                    Astro → static HTML/CSS in dist/
   content/site.ts       ALL visible copy (edit text here only)
-  styles/tokens.css     ALL colours, fonts, sizes (designer edits here)
+  styles/tokens.css     ALL colours, fonts, sizes of the guest pages (from Figma)
+  styles/plain.css      admin / password screens (not designed)
   styles/*.css          section/form/admin styles, using tokens only
   components/           one file per section
   pages/index.astro     public front page
+  pages/preview/rsvp    every RSVP state with sample data (design QA)
   pages/shell/invite    template for personal pages (never served directly)
   pages/admin/          dashboard (data loaded from /api/admin/*)
 functions/              Cloudflare Pages Functions
@@ -104,22 +106,21 @@ The dashboard at `/admin` has five tabs:
 ## Go-live on etwedding.io
 
 1. Pages project → Custom domains → add `etwedding.io`.
-2. Change `SITE_URL` to `https://etwedding.io` and redeploy. The tokens don't change, so links are only "wrong" if they were already sent with the pages.dev host. Switch the domain **before** 20 Nov sends.
+2. Change `SITE_URL` (in `wrangler.toml`) and `site` (in `astro.config.mjs`) to `https://etwedding.io` and redeploy. The tokens don't change, so links are only "wrong" if they were already sent with the pages.dev host. Switch the domain **before** 20 Nov sends.
 
-## For the designer
+## Design
 
-- Brand colours: taupe `#F0E8DD` and crimson `#7F000B`. Text is crimson by default. On a crimson block (`.day`), text switches to taupe.
-- Three text roles, defined once in `src/styles/base.css`:
-  - **Header:** Bodoni Moda Regular, all caps
-  - **Sub-header:** Inter Regular, all caps
-  - **Body:** Inter Light, sentence case
-- Colours, fonts, spacing and button shapes are CSS variables in `src/styles/tokens.css`.
-- Fonts are self-hosted via `@fontsource` (`src/layouts/Fonts.astro`):
-  - Bodoni Moda for titles
-  - Inter for text
-  - Ms Madi for the script logo and welcome title, as the closest free match. Swap in the original logo file if you have it.
-- Section styles in `src/styles/sections.css` and `rsvp.css` use only those variables and plain BEM-style class names.
-- Copy lives in `src/content/site.ts`, so markup and text can change independently.
+The guest-facing site is designed in Figma by our designer. Until his file arrives it runs on a neutral placeholder style. **See [DESIGN.md](DESIGN.md)** for the handoff: screens, RSVP states, edge cases, what to deliver, and how Figma styles map to `src/styles/tokens.css`.
+
+There are two separate style systems:
+
+| | Guest pages (designed in Figma) | Plain pages (not designed) |
+|---|---|---|
+| Pages | front page, `/i/<token>`, `/preview/rsvp` | password screen, `/admin` (incl. Send tab), 404 |
+| Layout | `src/layouts/Base.astro` | `src/layouts/Plain.astro` |
+| Styles | `fonts.css`, `tokens.css`, `base.css`, `sections.css`, `rsvp.css` | `plain.css`, `admin.css` |
+
+Restyling the guest site never changes the plain pages.
 
 ## Still to fill in (`TODO` in the code)
 

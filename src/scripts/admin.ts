@@ -73,7 +73,7 @@ function pending() {
     <div class="table-wrap"><table class="table"><thead><tr><th>Household</th><th>Side</th><th>List</th><th class="num">Guests</th><th>Phone</th><th>Invite sent</th><th></th></tr></thead><tbody>
     ${list.map((h) => `<tr><td>${esc(h.name)}</td><td>${sideLabel(h.side)}</td><td>${esc(h.listOwner)}</td><td class="num">${h.guestCount}</td>
       <td>${esc(h.phone || '—')}</td><td>${esc(fmt(h.sentAt) || 'no')}</td>
-      <td><a class="button" target="_blank" rel="noopener" href="${esc(waLink(h, data.templates.reminder_template))}">Remind</a></td></tr>`).join('')}
+      <td><a class="p-button" target="_blank" rel="noopener" href="${esc(waLink(h, data.templates.reminder_template))}">Remind</a></td></tr>`).join('')}
     </tbody></table></div>`;
 }
 
@@ -90,15 +90,15 @@ function dietary() {
 function send() {
   const rows = data.households.map((h) => `<tr class="${h.sentAt ? 'is-sent' : ''}">
       <td>${esc(h.name)}</td><td>${esc(h.phone || '—')}</td>
-      <td><a class="button" target="_blank" rel="noopener" data-send="${h.id}" href="${esc(waLink(h, data.templates.send_template))}">WhatsApp</a></td>
-      <td><button class="button button--ghost" type="button" data-copy="${esc(h.link)}">Copy link</button></td>
+      <td><a class="p-button" target="_blank" rel="noopener" data-send="${h.id}" href="${esc(waLink(h, data.templates.send_template))}">WhatsApp</a></td>
+      <td><button class="p-button p-button--ghost" type="button" data-copy="${esc(h.link)}">Copy link</button></td>
       <td><label><input type="checkbox" data-sent="${h.id}" ${h.sentAt ? 'checked' : ''}> ${esc(fmt(h.sentAt))}</label></td></tr>`).join('');
   panel.innerHTML = `
-    <label class="field"><span class="field__label">Invitation message. <code>{name}</code> and <code>{link}</code> are filled in per household.</span>
-      <textarea class="input" id="tpl-send">${esc(data.templates.send_template)}</textarea></label>
-    <label class="field"><span class="field__label">Reminder message (used on “Not replied”)</span>
-      <textarea class="input" id="tpl-reminder">${esc(data.templates.reminder_template)}</textarea></label>
-    <p><button class="button" type="button" id="tpl-save">Save messages</button> <span id="tpl-status" class="admin__muted"></span></p>
+    <label class="p-field"><span class="p-label">Invitation message. <code>{name}</code> and <code>{link}</code> are filled in per household.</span>
+      <textarea class="p-input" id="tpl-send">${esc(data.templates.send_template)}</textarea></label>
+    <label class="p-field"><span class="p-label">Reminder message (used on “Not replied”)</span>
+      <textarea class="p-input" id="tpl-reminder">${esc(data.templates.reminder_template)}</textarea></label>
+    <p><button class="p-button" type="button" id="tpl-save">Save messages</button> <span id="tpl-status" class="admin__muted"></span></p>
     <h2>Households</h2>
     <p class="admin__muted">Tapping WhatsApp opens the chat with the message ready and ticks “sent”.</p>
     <div class="table-wrap"><table class="table"><thead><tr><th>Household</th><th>Phone</th><th></th><th></th><th>Sent</th></tr></thead><tbody>${rows}</tbody></table></div>`;
@@ -118,7 +118,7 @@ function send() {
 function guests() {
   const cell = (r: Row, e: EventKey) => !r.invited[e] ? '' : r.answer[e] == null ? '<span class="pill">…</span>'
     : r.answer[e] ? '<span class="pill pill--yes">Yes</span>' : '<span class="pill pill--no">No</span>';
-  panel.innerHTML = `<label class="field"><span class="visually-hidden">Filter</span><input class="input" id="filter" placeholder="Filter by name, list, side…"></label>
+  panel.innerHTML = `<label class="p-field"><input class="p-input" id="filter" aria-label="Filter" placeholder="Filter by name, list, side…"></label>
     <div class="table-wrap"><table class="table"><thead><tr><th>Guest</th><th>Household</th><th>Side</th><th>List</th>${EVENTS.map((e) => `<th>${EVENT_LABEL[e]}</th>`).join('')}</tr></thead>
     <tbody id="guest-rows">${data.rows.map((r) => `<tr data-q="${esc(`${r.guest} ${r.household} ${r.listOwner} ${sideLabel(r.side)}`.toLowerCase())}">
       <td>${esc(r.guest)}</td><td>${esc(r.household)}</td><td>${sideLabel(r.side)}</td><td>${esc(r.listOwner)}</td>${EVENTS.map((e) => `<td>${cell(r, e)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;

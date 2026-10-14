@@ -1,0 +1,26 @@
+---
+// Design QA: every RSVP state with sample data, to compare against the Figma
+// frames. Behind the site password. Sending here is simulated (no database).
+import Base from '../../layouts/Base.astro';
+import RsvpPersonal from '../../components/RsvpPersonal.astro';
+import { samples } from '../../content/samples';
+
+const states = [
+  ['1. Form: first visit (3 guests + plus-one, all events)', samples.firstVisit, 'form'],
+  ['2. Form: prefilled (they already replied)', samples.replied, 'form'],
+  ['3. Sent confirmation', samples.replied, 'sent'],
+  ['4. Closed: after deadline, with reply', samples.closed, 'closed'],
+  ['5. Closed: after deadline, never replied', samples.closedNoReply, 'closed'],
+  ['6. Form: one guest, no warm-up', samples.single, 'form'],
+] as const;
+---
+<Base title="RSVP states · preview">
+  <main>
+    {states.map(([label, invite, state], i) => (
+      <>
+        <p class="t-small" style="padding: 1rem; background: #ffe9a8; color: #000; font-family: system-ui; margin: 0;">PREVIEW {label}</p>
+        <RsvpPersonal id={`rsvp-${i + 1}`} invite={invite} previewState={state} />
+      </>
+    ))}
+  </main>
+</Base>

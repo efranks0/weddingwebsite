@@ -1,24 +1,41 @@
-/* Personal RSVP form. Uses tokens only. */
-.rsvp { text-align: left; margin-top: var(--space-5); }
-.rsvp__event { border: 0; border-top: var(--border); padding: var(--space-4) 0 var(--space-3); margin: 0; }
-.rsvp__event-title { font-size: var(--text-lg); padding: 0 var(--space-3) 0 0; }
-.rsvp__event-time { font-size: var(--text-sm); letter-spacing: var(--tracking-heading); margin-left: var(--space-2); }
-.rsvp__row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; padding: var(--space-2) 0; }
-.rsvp__name { flex: 1 1 10rem; letter-spacing: var(--tracking-heading); }
-.rsvp__choices { display: flex; gap: var(--space-2); }
+/* Personal RSVP. The section has data-state = form | sent | closed and shows
+   only the matching [data-when] block. Each state is a Figma frame. */
+.rsvp [data-when] { display: none; }
+.rsvp[data-state='form'] [data-when='form'],
+.rsvp[data-state='sent'] [data-when='sent'],
+.rsvp[data-state='closed'] [data-when='closed'] { display: block; }
+
+.rsvp__intro { margin-bottom: var(--space-6); }
+.rsvp__form { text-align: left; }
+
+/* Grid: one card per guest, one Yes/No row per event. */
+.rsvp-guest { border: 0; margin: 0 0 var(--space-4); padding: var(--space-4); background: var(--color-surface); border-radius: var(--radius-card); }
+.rsvp-guest__name { float: left; width: 100%; padding: 0; margin-bottom: var(--space-3); } /* float keeps the legend inside the card */
+.rsvp-guest__name + * { clear: both; }
+.rsvp-event { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: var(--space-3); padding-block: var(--space-2); }
+.rsvp-event + .rsvp-event { border-top: var(--border-width) solid var(--color-line); }
+.rsvp-event__time { display: block; color: var(--color-muted); }
+.rsvp-event__options { display: flex; gap: var(--space-2); }
 
 .choice input { position: absolute; opacity: 0; pointer-events: none; }
 .choice span {
-  display: inline-grid; place-items: center; min-width: 4.5rem; min-height: 2.5rem; padding: 0 var(--space-3);
-  border: 1px solid var(--color-ink); border-radius: var(--oval);
-  font-size: var(--text-sm); letter-spacing: var(--tracking-caps);
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 4.5rem; min-height: var(--choice-height); padding: 0 var(--space-4);
+  border: var(--border-width) solid var(--color-accent); border-radius: var(--radius-button);
   cursor: pointer; user-select: none;
 }
-.choice input:checked + span { background: var(--color-ink); color: var(--color-bg); }
-.choice input:focus-visible + span { outline: 1px solid var(--color-ink); outline-offset: 3px; }
-.choice input:disabled + span { cursor: default; opacity: 0.7; }
+.choice input:checked + span { background: var(--color-accent); color: var(--color-accent-ink); }
+.choice input:focus-visible + span { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.choice input:disabled + span { cursor: default; opacity: 0.6; }
 
-.rsvp .field { margin-top: var(--space-4); padding-top: var(--space-4); border-top: var(--border); }
-.rsvp__actions { text-align: center; }
-.rsvp__status { margin-top: var(--space-4); text-align: center; }
-.rsvp__status:empty { display: none; }
+.rsvp__notes { margin-top: var(--space-5); }
+.rsvp__error { margin-top: var(--space-4); color: var(--color-error); text-align: center; }
+.rsvp__error:empty { display: none; }
+.rsvp__actions { margin-top: var(--space-5); text-align: center; }
+
+/* Sent / closed */
+.rsvp__message { margin-bottom: var(--space-5); }
+.rsvp-summary { text-align: left; margin-bottom: var(--space-5); }
+.rsvp-summary__guest { padding-block: var(--space-3); border-bottom: var(--border-width) solid var(--color-line); }
+.rsvp-summary__event { display: flex; justify-content: space-between; gap: var(--space-3); }
+.rsvp-summary__notes { margin-top: var(--space-3); color: var(--color-muted); }

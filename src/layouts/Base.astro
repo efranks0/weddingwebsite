@@ -1,5 +1,7 @@
 ---
-import Fonts from './Fonts.astro';
+// Layout for guest-facing pages (front page, personal invite, previews).
+// Everything visual comes from the design system below; see DESIGN.md.
+import '../styles/fonts.css';
 import '../styles/tokens.css';
 import '../styles/base.css';
 import '../styles/sections.css';
@@ -8,17 +10,21 @@ import { site } from '../content/site';
 
 interface Props { title?: string }
 const { title = site.title } = Astro.props;
+const shareImage = site.share.image && Astro.site ? new URL(site.share.image, Astro.site).href : '';
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="robots" content="noindex, nofollow" />
     <meta name="referrer" content="no-referrer" />
     <title>{title}</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <Fonts />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={site.share.title} />
+    <meta property="og:description" content={site.share.description} />
+    {shareImage && <meta property="og:image" content={shareImage} />}
     <slot name="head" />
   </head>
   <body>

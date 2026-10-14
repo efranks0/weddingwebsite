@@ -1,13 +1,12 @@
 ---
 import { site } from '../content/site';
-import Heart from './Heart.astro';
 interface Props { personal?: boolean }
 const { personal = false } = Astro.props;
 ---
 <section class="hero" id="top">
-  <Heart class="hero__heart" />
-  {personal && <p class="hero__greeting">{site.rsvp.greeting} <span data-slot="household-name"></span></p>}
-  <h2 class="hero__title">{site.hero.title}</h2>
-  <p class="hero__date">{site.hero.date}</p>
-  {site.hero.lines.map((l) => <p class="hero__line">{l}</p>)}
+  {site.artwork.hero && <img class="hero__art" src={site.artwork.hero} alt={site.artwork.heroAlt} />}
+  {personal && <p class="hero__greeting t-label">{site.rsvp.greeting} <span data-slot="household-name"></span></p>}
+  <h2 class="hero__title t-h1">{site.hero.title}</h2>
+  <p class="hero__date t-label">{site.hero.date}</p>
+  {site.hero.lines.map((l) => <p class="t-body">{l}</p>)}
 </section>

@@ -33,7 +33,8 @@ export const onRequestGet: PagesFunction<Env, 'token'> = async ({ params, env, r
   const out = new HTMLRewriter()
     .on('[data-show]', { element(el) { if (!visible(h, el.getAttribute('data-show') || '')) el.remove(); } })
     .on('[data-slot="household-name"]', { element(el) { el.setInnerContent(h.name); } })
-    .on('script#invite-data', { element(el) { el.setInnerContent(data, { html: true }); } })
+    .on('[data-rsvp]', { element(el) { el.setAttribute('data-state', state.locked ? 'closed' : 'form'); } })
+    .on('script[data-invite]', { element(el) { el.setInnerContent(data, { html: true }); } })
     .transform(shell);
 
   return new Response(out.body, {

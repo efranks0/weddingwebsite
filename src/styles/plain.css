@@ -1,0 +1,35 @@
+/* Plain UI for non-designed screens (password, admin, 404). System fonts,
+   neutral colours. Self-contained: does not use the guest tokens. */
+.plain {
+  --p-bg: #f6f6f4;
+  --p-surface: #ffffff;
+  --p-text: #1d1d1b;
+  --p-muted: #6b6b66;
+  --p-line: #dcdcd6;
+  --p-accent: #1d1d1b;
+  --p-yes: #2f6b3a;
+  --p-no: #a1332b;
+  margin: 0;
+  background: var(--p-bg);
+  color: var(--p-text);
+  font: 15px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+.plain *, .plain *::before, .plain *::after { box-sizing: border-box; }
+.plain h1 { font-size: 1.5rem; margin: 0 0 1rem; }
+.plain h2 { font-size: 1.125rem; margin: 1.5rem 0 0.75rem; }
+.plain a:not(.p-button) { color: inherit; }
+
+.p-center { min-height: 100svh; display: grid; place-items: center; padding: 1rem; }
+.p-card { width: min(100%, 22rem); background: var(--p-surface); border: 1px solid var(--p-line); border-radius: 8px; padding: 1.5rem; }
+.p-field { display: block; margin-bottom: 1rem; }
+.p-label { display: block; font-size: 0.875rem; color: var(--p-muted); margin-bottom: 0.25rem; }
+.p-input { width: 100%; padding: 0.6rem 0.7rem; border: 1px solid var(--p-line); border-radius: 6px; font: inherit; background: var(--p-surface); color: inherit; }
+.p-input:focus-visible, .p-button:focus-visible { outline: 2px solid var(--p-accent); outline-offset: 2px; }
+textarea.p-input { min-height: 9rem; }
+.p-button {
+  display: inline-block; padding: 0.5rem 0.9rem; border: 1px solid var(--p-accent); border-radius: 6px;
+  background: var(--p-accent); color: var(--p-bg); font: inherit; font-size: 0.875rem; text-decoration: none; cursor: pointer;
+}
+.p-button--ghost { background: transparent; color: var(--p-accent); }
+.p-error { color: var(--p-no); margin: 0 0 1rem; }
+.p-muted { color: var(--p-muted); }

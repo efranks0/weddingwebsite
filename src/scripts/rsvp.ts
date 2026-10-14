@@ -1,4 +1,7 @@
+// Fills the RSVP component (src/components/RsvpPersonal.astro). No markup or
+// styling decisions here: it clones <template>s and sets [data-slot] text.
 type EventKey = 'warmup' | 'ceremony' | 'dinner';
+type State = 'form' | 'sent' | 'closed';
 interface Answer { guestId: number | null; extraSlot: number | null; event: EventKey; attending: boolean }
 interface Invite {
   token: string;
@@ -11,116 +14,141 @@ interface Invite {
   deadline: string;
   locked: boolean;
 }
+interface Person { key: string; guestId: number | null; extraSlot: number | null; name: string }
 
-const read = <T>(id: string): T | null => {
-  const el = document.getElementById(id);
-  try { return el ? (JSON.parse(el.textContent || 'null') as T) : null; } catch { return null; }
-};
+const fmtDate = (iso: string) => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
-const copy = read<Record<string, any>>('rsvp-copy')!;
-let invite = read<Invite>('invite-data');
-const form = document.getElementById('rsvp-form') as HTMLFormElement | null;
-const eventsEl = document.getElementById('rsvp-events')!;
-const statusEl = document.getElementById('rsvp-status')!;
+function init(root: HTMLElement) {
+  const json = <T>(sel: string): T | null => { try { return JSON.parse(root.querySelector(sel)?.textContent || 'null'); } catch { return null; } };
+  const copy = json<Record<string, any>>('script[data-copy]')!;
+  let inv = json<Invite>('script[data-invite]');
+  if (!inv) return;
+  const preview = root.dataset.previewState as State | undefined;
 
-const formatDeadline = (iso: string) =>
-  new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  const form = root.querySelector<HTMLFormElement>('.rsvp__form')!;
+  const notes = form.elements.namedItem('notes') as HTMLTextAreaElement;
+  const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+  const slots = (name: string) => root.querySelectorAll<HTMLElement>(`[data-slot="${name}"]`);
+  const fill = (el: Element, name: string, text: string) => { const s = el.querySelector(`[data-slot="${name}"]`); if (s) s.textContent = text; };
+  const clone = (name: string) => (root.querySelector<HTMLTemplateElement>(`template[data-template="${name}"]`)!.content.firstElementChild!.cloneNode(true) as HTMLElement);
+  const text = (s: string, i: Invite) => s.replace('{deadline}', fmtDate(i.deadline)).replace('{date}', i.response ? fmtDate(i.response.at) : '');
 
-function el<K extends keyof HTMLElementTagNameMap>(tag: K, attrs: Record<string, string> = {}, ...children: (Node | string)[]) {
-  const node = document.createElement(tag);
-  for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
-  node.append(...children);
-  return node;
-}
-
-function people(inv: Invite) {
-  return [
-    ...inv.guests.map((g) => ({ key: `g${g.id}`, guestId: g.id as number | null, extraSlot: null as number | null, name: g.name })),
-    ...Array.from({ length: inv.maxExtra }, (_, i) => ({
-      key: `x${i + 1}`, guestId: null, extraSlot: i + 1, name: inv.maxExtra > 1 ? `${copy.plusOne} ${i + 1}` : copy.plusOne,
+  const people = (i: Invite): Person[] => [
+    ...i.guests.map((g) => ({ key: `g${g.id}`, guestId: g.id, extraSlot: null, name: g.name })),
+    ...Array.from({ length: i.maxExtra }, (_, n) => ({
+      key: `x${n + 1}`, guestId: null, extraSlot: n + 1, name: i.maxExtra > 1 ? `${copy.plusOne} ${n + 1}` : copy.plusOne,
     })),
   ];
-}
+  const previous = (i: Invite, p: Person, e: EventKey) =>
+    i.response?.answers.find((a) => a.event === e && (p.guestId != null ? a.guestId === p.guestId : a.extraSlot === p.extraSlot))?.attending ?? null;
+  const eventTime = (i: Invite, e: EventKey) => (e === 'warmup' ? copy.warmupTimes[i.warmup] : copy.eventTimes[e]) || '';
 
-function previous(inv: Invite, p: { guestId: number | null; extraSlot: number | null }, e: EventKey): boolean | null {
-  const a = inv.response?.answers.find((x) => x.event === e && (p.guestId != null ? x.guestId === p.guestId : x.extraSlot === p.extraSlot));
-  return a ? a.attending : null;
-}
-
-function render(inv: Invite) {
-  eventsEl.replaceChildren();
-  for (const e of inv.events) {
-    const time = e === 'warmup' ? copy.warmupTimes[inv.warmup] : copy.eventTimes[e];
-    const fs = el('fieldset', { class: 'rsvp__event' },
-      el('legend', { class: 'rsvp__event-title' }, copy.events[e], ...(time ? [el('span', { class: 'rsvp__event-time' }, time)] : [])));
-    for (const p of people(inv)) {
-      const name = `${p.key}:${e}`;
-      const prev = previous(inv, p, e);
-      const choice = (value: 'yes' | 'no', label: string, checked: boolean) => {
-        const input = el('input', { type: 'radio', name, value }) as HTMLInputElement;
-        input.checked = checked;
-        input.disabled = inv.locked;
-        return el('label', { class: 'choice' }, input, el('span', {}, label));
-      };
-      fs.append(el('div', { class: 'rsvp__row' },
-        el('span', { class: 'rsvp__name' }, p.name),
-        el('span', { class: 'rsvp__choices', role: 'radiogroup', 'aria-label': `${p.name}, ${copy.events[e]}` },
-          choice('yes', copy.yes, prev === true),
-          choice('no', copy.no, prev === false || (prev === null && p.extraSlot != null && !!inv.response)))));
+  function renderForm(i: Invite) {
+    const guests = root.querySelector('[data-slot="guests"]')!;
+    guests.replaceChildren();
+    for (const p of people(i)) {
+      const card = clone('guest');
+      fill(card, 'name', p.name);
+      const events = card.querySelector('[data-slot="events"]')!;
+      for (const e of i.events) {
+        const row = clone('event');
+        fill(row, 'label', copy.events[e]);
+        fill(row, 'time', eventTime(i, e));
+        row.setAttribute('aria-label', `${p.name}: ${copy.events[e]}`);
+        const prev = previous(i, p, e);
+        // A plus-one left blank in an earlier reply was saved as "no".
+        const value = prev ?? (p.extraSlot != null && i.response ? false : null);
+        row.querySelectorAll<HTMLInputElement>('input[type=radio]').forEach((input) => {
+          input.name = `${p.key}:${e}`;
+          input.checked = value != null && (input.value === 'yes') === value;
+        });
+        events.append(row);
+      }
+      guests.append(card);
     }
-    eventsEl.append(fs);
+    notes.value = i.response?.notes ?? '';
+    slots('intro').forEach((s) => (s.textContent = text(i.response ? copy.introReplied : copy.intro, i)));
+    slots('error').forEach((s) => (s.textContent = ''));
   }
-  const notes = form!.elements.namedItem('notes') as HTMLTextAreaElement;
-  notes.value = inv.response?.notes ?? '';
-  notes.disabled = inv.locked;
-  (form!.querySelector('button[type=submit]') as HTMLButtonElement).hidden = inv.locked;
 
-  if (inv.locked) setStatus(copy.locked, '');
-  else if (inv.response) setStatus(`${copy.thanks} ${copy.changeUntil} ${formatDeadline(inv.deadline)}.`, 'success');
-}
-
-function setStatus(text: string, kind: '' | 'success' | 'error') {
-  statusEl.replaceChildren(text ? el('p', { class: `notice${kind ? ` notice--${kind}` : ''}` }, text) : '');
-}
-
-function collect(inv: Invite): Answer[] | null {
-  const answers: Answer[] = [];
-  for (const e of inv.events) for (const p of people(inv)) {
-    const checked = form!.querySelector<HTMLInputElement>(`input[name="${p.key}:${e}"]:checked`);
-    if (!checked) {
-      if (p.extraSlot != null) { answers.push({ guestId: null, extraSlot: p.extraSlot, event: e, attending: false }); continue; }
-      return null;
+  function renderSummary(i: Invite) {
+    for (const container of slots('summary')) {
+      container.replaceChildren();
+      if (!i.response) continue;
+      for (const p of people(i)) {
+        const answers = i.events.map((e) => [e, previous(i, p, e)] as const);
+        if (p.extraSlot != null && !answers.some(([, a]) => a)) continue; // hide plus-ones not coming
+        const g = clone('summary-guest');
+        fill(g, 'name', p.name);
+        const list = g.querySelector('[data-slot="events"]')!;
+        for (const [e, a] of answers) {
+          const li = clone('summary-event');
+          fill(li, 'label', copy.events[e]);
+          fill(li, 'answer', a ? copy.yes : copy.no);
+          list.append(li);
+        }
+        container.append(g);
+      }
+      if (i.response.notes) {
+        const n = clone('summary-notes');
+        fill(n, 'label', copy.summaryNotes);
+        fill(n, 'text', i.response.notes);
+        container.append(n);
+      }
     }
-    answers.push({ guestId: p.guestId, extraSlot: p.extraSlot, event: e, attending: checked.value === 'yes' });
+    slots('sent-text').forEach((s) => (s.textContent = text(copy.sentText, i)));
+    slots('closed-text').forEach((s) => (s.textContent = text(i.response ? copy.closedText : copy.closedNoReply, i)));
   }
-  return answers;
-}
 
-if (form && invite) {
-  render(invite);
+  function show(state: State) {
+    root.dataset.state = state;
+    if (state === 'form') renderForm(inv!);
+    else renderSummary(inv!);
+  }
+
+  function collect(i: Invite): Answer[] | null {
+    const out: Answer[] = [];
+    for (const p of people(i)) for (const e of i.events) {
+      const checked = form.querySelector<HTMLInputElement>(`input[name="${p.key}:${e}"]:checked`);
+      if (!checked && p.guestId != null) return null;
+      out.push({ guestId: p.guestId, extraSlot: p.extraSlot, event: e, attending: checked?.value === 'yes' });
+    }
+    return out;
+  }
+
   form.addEventListener('submit', async (ev) => {
     ev.preventDefault();
-    const inv = invite!;
-    const answers = collect(inv);
-    if (!answers) return setStatus(copy.missing, 'error');
-    const button = form.querySelector('button[type=submit]') as HTMLButtonElement;
+    const i = inv!;
+    const answers = collect(i);
+    const error = (m: string) => slots('error').forEach((s) => (s.textContent = m));
+    if (!answers) return error(copy.missing);
+    if (preview) { inv = { ...i, response: { at: new Date().toISOString(), notes: notes.value, answers } }; return show('sent'); }
     button.disabled = true;
     button.textContent = copy.sending;
     try {
-      const res = await fetch(`/api/rsvp/${inv.token}`, {
+      const res = await fetch(`/api/rsvp/${i.token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ answers, notes: (form.elements.namedItem('notes') as HTMLTextAreaElement).value }),
+        body: JSON.stringify({ answers, notes: notes.value }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Something went wrong');
-      invite = { ...data, token: inv.token };
-      render(invite!);
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        if (res.status === 403) { inv = { ...i, locked: true }; return show('closed'); }
+        throw new Error(data.error || copy.failed);
+      }
+      inv = { ...data, token: i.token };
+      show('sent');
+      root.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } catch (err) {
-      setStatus(err instanceof Error ? err.message : 'Something went wrong. Please try again.', 'error');
+      error(err instanceof Error ? err.message : copy.failed);
     } finally {
       button.disabled = false;
       button.textContent = copy.send;
     }
   });
+  root.querySelector('[data-action="edit"]')?.addEventListener('click', () => show('form'));
+
+  show(preview ?? (inv.locked ? 'closed' : 'form'));
 }
+
+document.querySelectorAll<HTMLElement>('[data-rsvp]').forEach(init);

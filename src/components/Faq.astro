@@ -3,12 +3,12 @@ import { site } from '../content/site';
 ---
 <section class="section" id="faq">
   <div class="container">
-    <h2>{site.faq.title}</h2>
+    <h2 class="section__title t-h2">{site.faq.title}</h2>
     <div class="faq">
       {site.faq.items.map((f) => (
-        <details class="faq__item" open>
-          <summary class="faq__q">{f.q}</summary>
-          <div class="faq__a">{f.a.map((line) => <p>{line}</p>)}</div>
+        <details class="faq__item">
+          <summary class="faq__q t-body">{f.q}</summary>
+          <div class="faq__a t-body">{f.a.map((line) => <p>{line}</p>)}</div>
         </details>
       ))}
     </div>

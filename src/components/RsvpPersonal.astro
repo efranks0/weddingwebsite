@@ -1,31 +1,100 @@
 ---
-// The form is rendered in the browser from the JSON the /i/<token> function
-// injects into #invite-data. Labels come from site.ts via #rsvp-copy.
+// Personal RSVP. All markup is here; src/scripts/rsvp.ts only clones the
+// <template>s and fills [data-slot]s, so the Figma restyle is CSS + markup
+// in this file, never JS.
+//
+// States (data-state on the section; each is a Figma frame):
+//   form    Yes/No grid per guest (empty on first visit, prefilled after a reply)
+//   sent    confirmation right after Send, with a summary and "Change my answer"
+//   closed  after the deadline: read-only summary (or "no reply received")
+//
+// On /i/<token> the server injects the household JSON into [data-invite] and
+// sets data-state. /preview/rsvp renders this component with sample data.
 import { site } from '../content/site';
+
+interface Props {
+  id?: string;
+  invite?: unknown;                         // sample data (preview page only)
+  previewState?: 'form' | 'sent' | 'closed'; // force a state (preview page only)
+}
+const { id = 'rsvp', invite = null, previewState } = Astro.props;
+
+const r = site.rsvp;
 const block = (ev: string) => site.day.blocks.find((b) => b.rsvpEvent === ev);
 const copy = {
-  ...site.rsvp,
-  eventTimes: { warmup: '', ceremony: block('ceremony')?.entries[0]?.time ?? '', dinner: block('dinner')?.entries[0]?.time ?? '' },
+  ...r,
+  eventTimes: { ceremony: block('ceremony')?.entries[0]?.time ?? '', dinner: block('dinner')?.entries[0]?.time ?? '' },
   warmupTimes: Object.fromEntries((block('warmup')?.entries ?? []).map((e) => [e.show.replace('warmup-', ''), e.time])),
 };
 ---
-<section class="section" id="rsvp">
+<section class="section rsvp" id={id} data-rsvp data-state={previewState ?? 'form'} data-preview-state={previewState}>
   <div class="container">
-    <h2>{site.rsvp.title}</h2>
-    <p>{site.rsvp.intro}</p>
-    <form class="rsvp" id="rsvp-form" novalidate>
-      <div id="rsvp-events"></div>
-      <label class="field">
-        <span class="field__label">{site.rsvp.notesLabel}</span>
-        <textarea class="input" name="notes" rows="3" maxlength="1000" placeholder={site.rsvp.notesPlaceholder}></textarea>
-      </label>
-      <div class="rsvp__actions">
-        <button class="button" type="submit">{site.rsvp.send}</button>
-      </div>
-      <div class="rsvp__status" id="rsvp-status" role="status" aria-live="polite"></div>
-    </form>
+    <h2 class="section__title t-h2">{r.title}</h2>
+
+    <!-- State: form -->
+    <div data-when="form">
+      <p class="rsvp__intro t-body" data-slot="intro"></p>
+      <form class="rsvp__form" novalidate>
+        <div data-slot="guests"></div>
+        <label class="field rsvp__notes">
+          <span class="field__label t-label">{r.notesLabel}</span>
+          <textarea class="input t-body" name="notes" rows="3" maxlength="1000" placeholder={r.notesPlaceholder}></textarea>
+        </label>
+        <p class="rsvp__error t-small" data-slot="error" role="alert"></p>
+        <div class="rsvp__actions">
+          <button class="button t-label" type="submit">{r.send}</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- State: sent -->
+    <div data-when="sent" role="status">
+      <h3 class="rsvp__message t-h3">{r.sentTitle}</h3>
+      <p class="rsvp__message t-body" data-slot="sent-text"></p>
+      <div class="rsvp-summary" data-slot="summary"></div>
+      <button class="button button--secondary t-label" type="button" data-action="edit">{r.edit}</button>
+    </div>
+
+    <!-- State: closed -->
+    <div data-when="closed">
+      <h3 class="rsvp__message t-h3">{r.closedTitle}</h3>
+      <p class="rsvp__message t-body" data-slot="closed-text"></p>
+      <div class="rsvp-summary" data-slot="summary"></div>
+    </div>
   </div>
-  <script id="invite-data" type="application/json">null</script>
-  <script id="rsvp-copy" type="application/json" set:html={JSON.stringify(copy)} />
+
+  <!-- One card per guest (or plus-one) in the form -->
+  <template data-template="guest">
+    <fieldset class="rsvp-guest">
+      <legend class="rsvp-guest__name t-h3" data-slot="name"></legend>
+      <div data-slot="events"></div>
+    </fieldset>
+  </template>
+  <!-- One Yes/No row per event inside a guest card -->
+  <template data-template="event">
+    <div class="rsvp-event" role="radiogroup">
+      <span class="rsvp-event__label t-body"><span data-slot="label"></span><span class="rsvp-event__time t-small" data-slot="time"></span></span>
+      <span class="rsvp-event__options">
+        <label class="choice"><input type="radio" value="yes" /><span class="t-label">{r.yes}</span></label>
+        <label class="choice"><input type="radio" value="no" /><span class="t-label">{r.no}</span></label>
+      </span>
+    </div>
+  </template>
+  <!-- Summary (sent / closed states) -->
+  <template data-template="summary-guest">
+    <div class="rsvp-summary__guest">
+      <p class="t-label" data-slot="name"></p>
+      <ul data-slot="events"></ul>
+    </div>
+  </template>
+  <template data-template="summary-event">
+    <li class="rsvp-summary__event t-body"><span data-slot="label"></span><span data-slot="answer"></span></li>
+  </template>
+  <template data-template="summary-notes">
+    <p class="rsvp-summary__notes t-small"><span data-slot="label"></span>: <span data-slot="text"></span></p>
+  </template>
+
+  <script type="application/json" data-invite set:html={JSON.stringify(invite).replace(/</g, '\\u003c')} />
+  <script type="application/json" data-copy set:html={JSON.stringify(copy).replace(/</g, '\\u003c')} />
 </section>
 <script src="../scripts/rsvp.ts"></script>

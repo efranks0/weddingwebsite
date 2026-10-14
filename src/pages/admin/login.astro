@@ -1,20 +1,19 @@
 ---
-import Base from '../../layouts/Base.astro';
+import Plain from '../../layouts/Plain.astro';
 ---
-<Base title="Admin">
-  <header class="header"><span class="logo">Admin</span></header>
-  <main class="auth">
-    <form class="auth__card" method="post" action="/api/admin/login">
+<Plain title="Admin">
+  <main class="p-center">
+    <form class="p-card" method="post" action="/api/admin/login">
       <h1>Admin</h1>
-      <p id="login-error" class="notice notice--error" hidden>Wrong password.</p>
-      <label class="field">
-        <span class="field__label">Password</span>
-        <input class="input" type="password" name="password" autocomplete="current-password" required autofocus />
+      <p id="login-error" class="p-error" hidden>Wrong password.</p>
+      <label class="p-field">
+        <span class="p-label">Password</span>
+        <input class="p-input" type="password" name="password" autocomplete="current-password" required autofocus />
       </label>
-      <button class="button" type="submit">Sign in</button>
+      <button class="p-button" type="submit">Sign in</button>
     </form>
   </main>
   <script>
     if (new URLSearchParams(location.search).get('error')) document.getElementById('login-error')!.hidden = false;
   </script>
-</Base>
+</Plain>

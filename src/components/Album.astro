@@ -4,9 +4,9 @@ const a = site.album;
 ---
 <section class="section" id="album">
   <div class="container">
-    <h2>{a.title}</h2>
-    {a.paragraphs.map((p) => <p>{p}</p>)}
-    {a.qrImage && <img class="album__qr" src={a.qrImage} alt="QR code for the photo album" width="180" height="180" />}
-    {a.url && <a class="button" href={a.url} target="_blank" rel="noopener">{a.button}</a>}
+    <h2 class="section__title t-h2">{a.title}</h2>
+    {a.paragraphs.map((p) => <p class="t-body">{p}</p>)}
+    {a.qrImage && <img class="album__qr" src={a.qrImage} alt="QR code for the photo album" width="176" height="176" />}
+    {a.url && <p class="section__actions"><a class="button t-label" href={a.url} target="_blank" rel="noopener">{a.button}</a></p>}
   </div>
 </section>

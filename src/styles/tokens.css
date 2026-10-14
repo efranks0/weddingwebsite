@@ -1,74 +1,78 @@
 /* ==========================================================================
-   Design tokens. The whole look of the site is set here.
-   Components only ever use these variables, so restyling = editing this file.
-   Brand: two colours, three text roles (from the Bliss & Bone settings).
-   Text is crimson by default; on a crimson block, text switches to taupe.
+   DESIGN TOKENS: the single place the guest-facing look is defined.
+
+   PLACEHOLDER VALUES. When the Figma file arrives, replace the values below
+   with the Figma styles. Names map 1:1 to what Figma calls them:
+     Colour styles  → --color-*
+     Text styles    → --type-<style>-*   (display, h1, h2, h3, label, body, small)
+     Spacing/grid   → --space-*, --gutter, --content-width, --section-pad
+     Radii/borders  → --radius-*, --border-width
+   Mobile values first (Figma mobile frame, 390 wide); desktop overrides at
+   the bottom (Figma desktop frame, from 48rem / 768px).
+   Not used by admin / password screens (those use plain.css).
    ========================================================================== */
 :root {
-  /* Colour */
-  --taupe: #F0E8DD;              /* brand off-white / taupe */
-  --crimson: #7F000B;            /* brand crimson */
-
-  --color-bg: var(--taupe);      /* page background */
-  --color-ink: var(--crimson);   /* default text, lines, headings */
-  --color-panel: var(--crimson); /* crimson blocks ("The Day") */
-  --color-panel-ink: var(--taupe); /* text on crimson blocks */
-  --color-surface: color-mix(in srgb, var(--taupe) 60%, white); /* inputs */
-  --color-muted: color-mix(in srgb, var(--color-ink) 70%, var(--color-bg));
-  --color-line: var(--color-ink);
+  /* ---- Colour styles ---- */
+  --color-bg: #ffffff;            /* page background */
+  --color-ink: #222222;           /* default text */
+  --color-muted: #6f6f6f;         /* secondary text */
+  --color-line: #dddddd;          /* dividers, borders */
+  --color-surface: #f4f4f4;       /* cards, inputs */
+  --color-accent: #222222;        /* buttons, selected Yes/No */
+  --color-accent-ink: #ffffff;    /* text on accent */
+  --color-inverse: #222222;       /* inverted blocks ("The Day") */
+  --color-inverse-ink: #ffffff;   /* text on inverted blocks */
+  --color-cover: #222222;         /* welcome/cover background (under artwork) */
+  --color-cover-ink: #ffffff;
+  --color-error: #b3261e;
   --color-success: var(--color-ink);
-  --color-danger: var(--crimson);
 
-  /* Welcome screen: black sky over a misty horizon (sampled from the B&B page).
-     To use the original photo instead: --welcome-bg: url('/images/welcome.jpg') center / cover; */
-  --color-welcome-ink: #b80a18;   /* bright red script + RSVP/MENU over the welcome image */
-  --welcome-bg: linear-gradient(180deg,
-      #0d0d0f 0%, #0e1118 48.5%, #112434 49.4%, #214761 50.2%, #3b6882 51%, #58839b 51.7%,
-      #7398ad 52.5%, #9fb8c5 54%, #becbd5 55.7%, #d7d9dd 59.7%, #e2e2e3 63.7%, #e1e1e3 96%, #d6d6d8 100%);
-  --welcome-grain: 0.14;          /* film grain strength, 0 to disable */
-  --text-welcome: clamp(3.5rem, 2rem + 6vw, 7.5rem);
+  /* ---- Fonts (add @font-face in src/styles/fonts.css) ---- */
+  --font-serif: Georgia, 'Times New Roman', serif;
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
-  /* Typography (self-hosted via @fontsource, see src/layouts/Fonts.astro) */
-  /* Three text roles:
-       Header      Bodoni Moda Regular, ALL CAPS
-       Sub-header  Inter Regular, ALL CAPS
-       Body        Inter Light, sentence case            */
-  --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', serif;
-  --font-body: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-  --font-script: 'Ms Madi', cursive;   /* logo + welcome title (closest free match to the B&B signature font) */
-  --font-weight-display: 400;    /* Header: Regular */
-  --font-weight-subheader: 400;  /* Sub-header: Regular */
-  --font-weight-body: 300;       /* Body: Light */
-  --font-weight-strong: 500;     /* admin tables only */
-  --tracking-body: 0.06em;        /* B&B body copy is lightly letter-spaced */
-  --tracking-heading: 0.12em;     /* questions, times */
-  --tracking-caps: 0.14em;        /* date, small caps labels */
+  /* ---- Text styles: family / size / weight / line-height / tracking / case ---- */
+  --type-display-family: var(--font-serif);  --type-display-size: 2.75rem;  --type-display-weight: 400; --type-display-lh: 1.05; --type-display-tracking: 0;      --type-display-case: none;
+  --type-h1-family: var(--font-serif);       --type-h1-size: 2rem;          --type-h1-weight: 400;      --type-h1-lh: 1.1;       --type-h1-tracking: 0;           --type-h1-case: uppercase;
+  --type-h2-family: var(--font-serif);       --type-h2-size: 1.75rem;       --type-h2-weight: 400;      --type-h2-lh: 1.15;      --type-h2-tracking: 0;           --type-h2-case: uppercase;
+  --type-h3-family: var(--font-serif);       --type-h3-size: 1.25rem;       --type-h3-weight: 400;      --type-h3-lh: 1.2;       --type-h3-tracking: 0;           --type-h3-case: uppercase;
+  --type-label-family: var(--font-sans);     --type-label-size: 0.875rem;   --type-label-weight: 400;   --type-label-lh: 1.4;    --type-label-tracking: 0.1em;    --type-label-case: uppercase;
+  --type-body-family: var(--font-sans);      --type-body-size: 1rem;        --type-body-weight: 300;    --type-body-lh: 1.6;     --type-body-tracking: 0.01em;    --type-body-case: none;
+  --type-small-family: var(--font-sans);     --type-small-size: 0.8125rem;  --type-small-weight: 400;   --type-small-lh: 1.5;    --type-small-tracking: 0.02em;   --type-small-case: none;
 
-  --text-xs: 0.6875rem;
-  --text-sm: 0.875rem;
-  --text-base: 0.9375rem;
-  --text-md: 1.25rem;            /* FAQ questions, times */
-  --text-lg: 1.375rem;
-  --text-xl: clamp(2.25rem, 1.6rem + 2.4vw, 3.25rem);   /* section titles */
-  --text-hero: clamp(2rem, 1.4rem + 2.6vw, 3rem);
-  --text-logo: 1.75rem;
-  --line-height: 1.65;
-  --line-height-tight: 1.1;
-
-  /* Space & layout */
+  /* ---- Spacing & layout ---- */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
-  --space-3: 1rem;
-  --space-4: 1.5rem;
-  --space-5: 2.5rem;
-  --space-6: 4rem;
-  --space-section: clamp(4rem, 3rem + 4vw, 6.5rem);
-  --header-height: 5.75rem;
-  --content-width: 43.75rem;      /* 700px column, as on B&B */
-  --wide-width: 64rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2.5rem;
+  --space-7: 4rem;
+  --gutter: 1.25rem;              /* page side margin */
+  --content-width: 40rem;         /* text column */
+  --section-pad: 4rem;            /* vertical padding of each section */
+  --header-height: 3.5rem;
 
-  /* Shape */
-  --border: 1px solid var(--color-line);
-  --radius: 0;
-  --oval: 50%;                    /* the elliptical "LOCATION" buttons */
+  /* ---- Shape ---- */
+  --border-width: 1px;
+  --radius-card: 0;
+  --radius-input: 0;
+  --radius-button: 999px;
+  --button-height: 3rem;          /* ≥ 44px tap target */
+  --choice-height: 2.75rem;       /* Yes/No buttons */
+
+  /* ---- Artwork (files in public/images/) ---- */
+  --cover-image: none;            /* e.g. url('/images/cover.jpg') */
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --type-display-size: 5rem;
+    --type-h1-size: 3rem;
+    --type-h2-size: 2.75rem;
+    --type-h3-size: 1.5rem;
+    --gutter: 2.5rem;
+    --section-pad: 6.5rem;
+    --header-height: 4.5rem;
+  }
 }

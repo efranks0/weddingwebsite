@@ -1,14 +1,27 @@
 // All visible copy lives here. Edit text here, never in the components.
-// Taken from the Bliss & Bone site (myblissandbone.com/etwedding).
+// Wording is final copy; the look comes from the Figma (src/styles/tokens.css).
 
 const maps = (q: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
 
 export const site = {
   couple: 'Emilios & Theodora',
-  logo: 'Emilios and Theodora', // script logo, top left
+  logo: 'Emilios and Theodora', // header logo text (top left)
   title: 'Emilios & Theodora',
 
-  welcome: "It's Happening!", // full-screen welcome everyone lands on
+  cover: { title: "It's Happening!" }, // first full screen everyone lands on
+
+  // WhatsApp / iMessage link preview.
+  share: {
+    title: 'Emilios & Theodora',
+    description: "It's Happening! 30th of January 2027 · Limassol",
+    image: '', // e.g. '/images/share.jpg' (1200×630, from the Figma file)
+  },
+
+  // Artwork from the Figma file, exported to public/images/. Empty = not shown.
+  artwork: {
+    hero: '', // e.g. '/images/hero-mark.svg' (shown above the hero title)
+    heroAlt: '',
+  },
 
   hero: {
     menuLabel: "It's Happening",
@@ -89,7 +102,9 @@ export const site = {
     title: 'RSVP',
     publicText: 'Please reply using the personal link in your invitation message. Can’t find it? Just send us a message.',
     greeting: 'Dear', // "Dear <household name>"
-    intro: 'Let us know who will be joining us. You can reopen this page and change your answer until the deadline.',
+    // Placeholders: {deadline} = RSVP deadline, {date} = when they last replied.
+    intro: 'Please let us know who will be joining us by {deadline}.',
+    introReplied: 'You replied on {date}. You can change your answer until {deadline}.',
     yes: 'Yes',
     no: 'No',
     plusOne: 'Plus-one',
@@ -97,10 +112,17 @@ export const site = {
     notesPlaceholder: 'Allergies, vegetarian, anything we should know',
     send: 'Send',
     sending: 'Sending…',
-    thanks: 'Thank you! We have your reply.',
-    changeUntil: 'You can change your answer until',
-    locked: 'The RSVP deadline has passed. If something has changed, please message us directly.',
-    missing: 'Please answer for everyone before sending.',
+    missing: 'Please answer Yes or No for everyone.',
+    failed: 'Something went wrong. Please try again.',
+    // "Sent" state
+    sentTitle: 'Thank you!',
+    sentText: 'We have your reply. You can change it until {deadline}.',
+    edit: 'Change my answer',
+    // "Closed" state (after the deadline)
+    closedTitle: 'RSVPs are closed',
+    closedText: 'The deadline was {deadline}. If something has changed, please message us directly.',
+    closedNoReply: 'We didn’t receive a reply from you. Please message us directly.',
+    summaryNotes: 'Notes',
     events: {
       warmup: 'Warm-up drinks',
       ceremony: 'Ceremony',

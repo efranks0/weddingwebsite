@@ -12,16 +12,16 @@ const show = (s: string) => (personal && s ? s : undefined);
   <div class="container">
     {blocks.map((b) => (
       <div class="day__block" data-show={show(b.show)}>
-        <h2>{b.title}</h2>
+        <h2 class="day__title t-h2">{b.title}</h2>
         {b.entries.map((e) => (
           <div class="day__entry" data-show={show(e.show)}>
-            <p class="day__time">{e.time}</p>
-            {e.lines.map((l) => <p class="day__line">{l}</p>)}
-            {e.map && <a class="button" href={e.map} target="_blank" rel="noopener">{site.day.locationButton}</a>}
+            <p class="day__time t-label">{e.time}</p>
+            {e.lines.map((l) => <p class="t-body">{l}</p>)}
+            {e.map && <a class="button t-label" href={e.map} target="_blank" rel="noopener">{site.day.locationButton}</a>}
           </div>
         ))}
-        {b.footer.length > 0 && <div class="day__footer">{b.footer.map((l) => <p>{l}</p>)}</div>}
-        {b.map && <a class="button" href={b.map} target="_blank" rel="noopener">{site.day.locationButton}</a>}
+        {b.footer.length > 0 && <div class="day__footer">{b.footer.map((l) => <p class="t-body">{l}</p>)}</div>}
+        {b.map && <a class="button t-label" href={b.map} target="_blank" rel="noopener">{site.day.locationButton}</a>}
       </div>
     ))}
   </div>
