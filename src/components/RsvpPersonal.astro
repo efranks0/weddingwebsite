@@ -1,0 +1,34 @@
+---
+// The form is rendered in the browser from the JSON the /i/<token> function
+// injects into #invite-data. Labels come from site.ts via #rsvp-copy.
+import { site } from '../content/site';
+const eventTimes = {
+  warmup: '',
+  ceremony: site.day.items.find((i) => i.show === 'ceremony')?.time ?? '',
+  dinner: site.day.items.find((i) => i.show === 'dinner')?.time ?? '',
+};
+const copy = { ...site.rsvp, eventTimes, warmupTimes: {
+  emilios: site.day.items.find((i) => i.show === 'warmup-emilios')?.time ?? '',
+  theo: site.day.items.find((i) => i.show === 'warmup-theo')?.time ?? '',
+} };
+---
+<section class="section" id="rsvp">
+  <div class="container">
+    <h2>{site.rsvp.title}</h2>
+    <p>{site.rsvp.intro}</p>
+    <form class="rsvp" id="rsvp-form" novalidate>
+      <div id="rsvp-events"></div>
+      <label class="field">
+        <span class="field__label">{site.rsvp.notesLabel}</span>
+        <textarea class="input" name="notes" rows="3" maxlength="1000" placeholder={site.rsvp.notesPlaceholder}></textarea>
+      </label>
+      <div class="rsvp__actions">
+        <button class="button" type="submit">{site.rsvp.send}</button>
+      </div>
+      <div class="rsvp__status" id="rsvp-status" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+  <script id="invite-data" type="application/json">null</script>
+  <script id="rsvp-copy" type="application/json" set:html={JSON.stringify(copy)} />
+</section>
+<script src="../scripts/rsvp.ts"></script>

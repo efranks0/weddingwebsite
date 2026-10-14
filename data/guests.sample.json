@@ -1,0 +1,16 @@
+{
+  "households": [
+    { "key": "groom-family-01", "name": "Aunt Eleni & Uncle Petros", "side": "groom", "list": "Family", "phone": "+30 690 000 0001", "warmup": "emilios", "ceremony": true, "dinner": true, "max_extra": 0,
+      "guests": ["Eleni Sample", "Petros Sample"] },
+    { "key": "groom-athena-01", "name": "Giorgos", "side": "groom", "list": "Athena & Costas", "phone": "+30 690 000 0002", "warmup": "none", "max_extra": 1,
+      "guests": ["Giorgos Example"] },
+    { "key": "bride-zoe-01", "name": "Sophia, Alex & Mia", "side": "bride", "list": "Zoe", "phone": "+44 7700 900001", "warmup": "theo",
+      "guests": ["Sophia Test", "Alex Test", "Mia Test"] },
+    { "key": "bride-couple-01", "name": "Anna", "side": "bride", "list": "Couple", "phone": "+30 690 000 0003", "warmup": "theo", "dinner": true,
+      "guests": ["Anna Demo"] },
+    { "key": "bride-family-01", "name": "Yiayia Maria", "side": "bride", "list": "Family", "phone": "", "ceremony": true, "dinner": false,
+      "guests": ["Maria Placeholder"] },
+    { "key": "groom-couple-01", "name": "Nick & Kate", "side": "groom", "list": "Couple", "phone": "+1 555 010 0001", "max_extra": 2,
+      "guests": ["Nick Mock", "Kate Mock"] }
+  ]
+}

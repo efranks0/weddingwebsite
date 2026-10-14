@@ -1,0 +1,60 @@
+/* ==========================================================================
+   Design tokens. The whole look of the site is set here.
+   Components only ever use these variables, so restyling = editing this file.
+
+   TODO(design): match the current Bliss & Bone site exactly. Swap the
+   colour values, the font families (and the <link> in src/layouts/Fonts.astro),
+   then fine-tune sizes.
+   ========================================================================== */
+:root {
+  /* Colour */
+  --color-bg: #faf7f2;          /* page background */
+  --color-surface: #ffffff;     /* cards, form panels */
+  --color-text: #2b2724;        /* body text */
+  --color-muted: #7a716a;       /* secondary text */
+  --color-accent: #8a6d4b;      /* headings accents, buttons */
+  --color-accent-contrast: #ffffff;
+  --color-line: #e4ddd3;        /* hairlines, borders */
+  --color-hero-bg: #2b2724;
+  --color-hero-text: #faf7f2;
+  --color-success: #4f6b4a;
+  --color-danger: #9b3b2f;
+
+  /* Typography */
+  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-body: 'Jost', 'Helvetica Neue', Arial, sans-serif;
+  --font-weight-display: 400;
+  --font-weight-body: 300;
+  --font-weight-strong: 500;
+  --letter-spacing-caps: 0.2em;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
+  --text-hero: clamp(2.5rem, 1.6rem + 4.5vw, 5rem);
+  --line-height: 1.7;
+  --line-height-tight: 1.15;
+
+  /* Space & layout */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2.5rem;
+  --space-6: 4rem;
+  --space-section: clamp(4rem, 3rem + 5vw, 7.5rem);
+  --content-width: 40rem;
+  --wide-width: 64rem;
+
+  /* Shape */
+  --radius: 2px;
+  --radius-pill: 999px;
+  --border: 1px solid var(--color-line);
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.04);
+
+  /* Hero image (set to none for a plain colour hero) */
+  --hero-image: none; /* e.g. url('/images/hero.jpg') */
+  --hero-overlay: rgb(0 0 0 / 0.35);
+}

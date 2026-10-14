@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/admin.css';
+---
+<Base title="Admin · RSVPs">
+  <main class="admin">
+    <div class="admin__head">
+      <h1>RSVPs</h1>
+      <div class="admin__actions">
+        <a class="button button--ghost" href="/api/admin/export">Export CSV</a>
+        <form method="post" action="/api/admin/logout"><button class="button button--ghost" type="submit">Sign out</button></form>
+      </div>
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="tabs__tab" role="tab" data-tab="overview" aria-selected="true">Overview</button>
+      <button class="tabs__tab" role="tab" data-tab="pending" aria-selected="false">Not replied</button>
+      <button class="tabs__tab" role="tab" data-tab="dietary" aria-selected="false">Dietary</button>
+      <button class="tabs__tab" role="tab" data-tab="send" aria-selected="false">Send</button>
+      <button class="tabs__tab" role="tab" data-tab="guests" aria-selected="false">All guests</button>
+    </div>
+    <div id="panel" role="tabpanel"><p class="admin__muted">Loading…</p></div>
+  </main>
+</Base>
+<script src="../../scripts/admin.ts"></script>

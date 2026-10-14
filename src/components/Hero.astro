@@ -1,0 +1,13 @@
+---
+import { site } from '../content/site';
+interface Props { personal?: boolean }
+const { personal = false } = Astro.props;
+---
+<header class="hero">
+  <div>
+    {personal && <p class="hero__greeting">{site.rsvp.greeting} <span data-slot="household-name"></span></p>}
+    <p class="eyebrow hero__eyebrow">{site.hero.eyebrow}</p>
+    <h1 class="hero__title">{site.hero.title}</h1>
+    <p class="hero__meta">{site.date} · {site.place}</p>
+  </div>
+</header>

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.astro/
+.wrangler/
+.dev.vars
+# Real guest data (names, phone numbers) never goes in git.
+data/guests.json
+data/seed.sql
+*.xlsx

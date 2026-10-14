@@ -1,0 +1,24 @@
+{
+  "name": "etwedding",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "npm run build && wrangler pages dev",
+    "check": "tsc --noEmit -p functions/tsconfig.json",
+    "db:migrate:local": "wrangler d1 migrations apply wedding --local",
+    "db:migrate:remote": "wrangler d1 migrations apply wedding --remote",
+    "seed": "node scripts/seed.mjs",
+    "seed:local": "node scripts/seed.mjs data/guests.sample.json && wrangler d1 execute wedding --local --file data/seed.sql",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "astro": "^7.3.8"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261014.1",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.151.0"
+  }
+}

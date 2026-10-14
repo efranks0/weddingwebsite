@@ -1,0 +1,25 @@
+---
+// Public mode renders only public items. Personal mode renders every item
+// tagged with data-show; the /i/<token> function strips the ones this
+// household isn't invited to before the page leaves the server.
+import { site } from '../content/site';
+interface Props { personal?: boolean }
+const { personal = false } = Astro.props;
+const items = personal ? site.day.items : site.day.items.filter((i) => i.public);
+---
+<section class="section" id="the-day">
+  <div class="container">
+    <h2>{site.day.title}</h2>
+    <p class="section__label">{site.date}</p>
+    <ol class="timeline">
+      {items.map((i) => (
+        <li class="timeline__item" data-show={personal ? i.show : undefined}>
+          <div class="timeline__time">{i.time}</div>
+          <p class="timeline__title">{i.title}</p>
+          <p class="timeline__venue">{i.venue}</p>
+          {i.note && <p>{i.note}</p>}
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

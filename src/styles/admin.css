@@ -1,0 +1,29 @@
+/* Admin dashboard. Functional, tokenised, separate from the guest-facing look. */
+.admin { width: min(100% - 2 * var(--space-3), 80rem); margin: 0 auto; padding: var(--space-4) 0 var(--space-6); font-size: var(--text-sm); }
+.admin__head { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-4); }
+.admin__head h1 { font-size: var(--text-xl); margin: 0; }
+.admin__actions { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.admin .button { padding: var(--space-2) var(--space-3); font-size: var(--text-xs); }
+
+.tabs { display: flex; gap: var(--space-1); border-bottom: var(--border); margin-bottom: var(--space-4); overflow-x: auto; }
+.tabs__tab { border: 0; background: none; font: inherit; padding: var(--space-2) var(--space-3); cursor: pointer; color: var(--color-muted); border-bottom: 2px solid transparent; white-space: nowrap; }
+.tabs__tab[aria-selected='true'] { color: var(--color-text); border-bottom-color: var(--color-accent); }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); gap: var(--space-3); margin-bottom: var(--space-5); }
+.card { background: var(--color-surface); border: var(--border); border-radius: var(--radius); padding: var(--space-3); }
+.card__value { font-family: var(--font-display); font-size: var(--text-xl); }
+.card__label { color: var(--color-muted); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.08em; }
+
+.table-wrap { overflow-x: auto; margin-bottom: var(--space-5); }
+.table { width: 100%; border-collapse: collapse; background: var(--color-surface); }
+.table th, .table td { text-align: left; padding: var(--space-2) var(--space-3); border-bottom: var(--border); vertical-align: top; }
+.table th { font-weight: var(--font-weight-strong); color: var(--color-muted); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.06em; }
+.table td.num, .table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.table tr.is-total td { font-weight: var(--font-weight-strong); }
+.table tr.is-sent td { color: var(--color-muted); }
+.admin h2 { font-size: var(--text-lg); margin: var(--space-4) 0 var(--space-3); }
+.admin__muted { color: var(--color-muted); }
+.admin textarea.input { font-family: inherit; min-height: 9rem; }
+.pill { display: inline-block; padding: 0 var(--space-2); border-radius: var(--radius-pill); border: var(--border); font-size: var(--text-xs); }
+.pill--yes { border-color: var(--color-success); color: var(--color-success); }
+.pill--no { border-color: var(--color-danger); color: var(--color-danger); }

@@ -1,0 +1,10 @@
+---
+import { site } from '../content/site';
+---
+<section class="section" id="dress-code">
+  <div class="container">
+    <p class="eyebrow">{site.dressCode.title}</p>
+    <h2>{site.dressCode.label}</h2>
+    {site.dressCode.paragraphs.map((p) => <p>{p}</p>)}
+  </div>
+</section>

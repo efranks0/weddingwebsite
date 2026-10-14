@@ -1,0 +1,3 @@
+SITE_PASSWORD=guests
+ADMIN_PASSWORD=admin
+SESSION_SECRET=change-me-to-a-long-random-string

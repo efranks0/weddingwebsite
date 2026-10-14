@@ -1,0 +1,9 @@
+---
+import { site } from '../content/site';
+---
+<section class="section" id="intro">
+  <div class="container">
+    <h2>{site.intro.title}</h2>
+    {site.intro.paragraphs.map((p) => <p>{p}</p>)}
+  </div>
+</section>

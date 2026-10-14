@@ -1,0 +1,27 @@
+---
+import Fonts from './Fonts.astro';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/sections.css';
+import '../styles/rsvp.css';
+import { site } from '../content/site';
+
+interface Props { title?: string }
+const { title = site.title } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <title>{title}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <Fonts />
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
